@@ -1,12 +1,154 @@
-# React + Vite
+[5/8/2026 10:38 AM] Fe.......a: Task Management System with Real-Time Pusher Notifications
+A full-stack task management application with real-time notifications using Pusher.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Features
+Three User Roles:
 
-Currently, two official plugins are available:
+Admin/Leader: Create and manage tasks, assign to developers, view all tasks
+Developer: View assigned tasks, update task status, comment on tasks
+Member: View all tasks and add comments
+Real-Time Notifications:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Task assignment notifications for developers
+Task status update notifications for admins
+Comment notifications for all users involved in a task
+Real-time updates using Pusher
+Task Management:
 
-## Expanding the ESLint configuration
+Create, update, and delete tasks
+Set priority levels (low, medium, high)
+Track task status (pending, in progress, completed)
+Assign tasks to developers
+Set due dates
+Comment System:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Add comments to tasks
+Real-time comment notifications
+View comment history
+Tech Stack
+Backend
+Node.js + Express
+Supabase (PostgreSQL database)
+Pusher (Real-time notifications)
+JWT authentication
+bcryptjs for password hashing
+Frontend
+React 18
+React Router for navigation
+Pusher-js for real-time updates
+Axios for API calls
+Modern CSS with gradient backgrounds
+Setup Instructions
+1. Database Setup
+Run the SQL in database-setup.sql in your Supabase SQL Editor to create all necessary tables.
+
+2. Install Dependencies
+npm install
+3. Environment Variables
+The .env file is already configured with your Pusher credentials:
+
+PUSHER_APP_ID
+PUSHER_APP_KEY
+PUSHER_APP_SECRET
+PUSHER_APP_CLUSTER
+4. Run the Application
+npm run dev
+This will start both the backend server (port 3001) and frontend (port 5173).
+
+5. Access the Application
+Open your browser and go to: http://localhost:5173
+
+User Registration
+When registering, you can choose from three roles:
+
+Admin: Can create tasks, assign to developers, and manage everything
+Developer: Can view assigned tasks and update their status
+Member: Can view all tasks and add comments
+API Endpoints
+Authentication
+POST /api/auth/register - Register new user
+POST /api/auth/login - Login user
+GET /api/auth/me - Get current user
+Tasks
+GET /api/tasks - Get all tasks (filtered by role)
+GET /api/tasks/:id - Get single task
+POST /api/tasks - Create task (admin only)
+PUT /api/tasks/:id - Update task
+DELETE /api/tasks/:id - Delete task (admin only)
+Comments
+GET /api/comments/task/:taskId - Get task comments
+POST /api/comments - Add comment
+DELETE /api/comments/:id - Delete comment
+Notifications
+GET /api/notifications - Get user notifications
+GET /api/notifications/unread-count - Get unread count
+PUT /api/notifications/:id/read - Mark as read
+PUT /api/notifications/mark-all-read - Mark all as read
+DELETE /api/notifications/:id - Delete notification
+Real-Time Features
+Pusher Channels
+User Notifications: user-{userId}
+
+Event: notification
+Triggered when: Task assigned, task updated, or new comment
+Task Updates: task-{taskId}
+
+Event: task-update
+Triggered when: Task status changes
+New Comments: task-{taskId}
+[5/8/2026 10:38 AM] Fe.......a: Event: new-comment
+Triggered when: New comment added
+Notification Types
+task_assigned - When a task is assigned to a developer
+task_updated - When task status changes
+comment_added - When someone comments on a task you're involved with
+Project Structure
+project/
+├── server/
+│   ├── config/
+│   │   ├── database.js      # Supabase connection
+│   │   └── pusher.js        # Pusher configuration
+│   ├── middleware/
+│   │   └── auth.js          # JWT authentication
+│   ├── routes/
+│   │   ├── auth.js          # Authentication routes
+│   │   ├── tasks.js         # Task management routes
+│   │   ├── comments.js      # Comment routes
+│   │   └── notifications.js # Notification routes
+│   └── index.js             # Express server
+├── src/
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   ├── NotificationBell.jsx
+│   │   ├── PrivateRoute.jsx
+│   │   └── TaskModal.jsx
+│   ├── context/
+│   │   ├── AuthContext.jsx
+│   │   └── NotificationContext.jsx
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   ├── Dashboard.jsx
+│   │   └── TaskDetail.jsx
+│   ├── services/
+│   │   └── api.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── database-setup.sql
+├── package.json
+└── vite.config.js
+Browser Notifications
+The app requests permission for browser notifications. Click "Allow" when prompted to receive desktop notifications for new events.
+
+Security
+Passwords are hashed using bcryptjs
+JWT tokens for authentication
+Role-based access control
+Input validation on backend
+SQL injection prevention with parameterized queries
+Development Notes
+Backend runs on port 3001
+Frontend runs on port 5173
+Vite proxy forwards /api requests to backend
+Hot reload enabled for both frontend and backend
